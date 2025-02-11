@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: aiproxy
+  cloud:
+    gateway:
+      routes:
+        - id: openai-route
+          uri: https://api.openai.com
+          predicates:
+            - Path=/openai/**
+          filters:
+            - RewritePath=/openai/(?<segment>.*), /${segment}
+        - id: anthropic-route
+          uri: https://api.anthropic.com
+          predicates:
+            - Path=/anthropic/**
+          filters:
+            - RewritePath=/anthropic/(?<segment>.*), /${segment}
+        - id: gemini-route
+          uri: https://generativelanguage.googleapis.com
+          predicates:
+            - Path=/gemini/**
+          filters:
+            - RewritePath=/gemini/(?<segment>.*), /${segment}
+        # - id: dynamic-route
+        #   uri: ${request.path:/}
+        #   predicates:
+        #     - Path=/**
+        #   filters:
+        #     - PreserveHostHeader
+        #     - DedupeResponseHeader=Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+logging:
+  level:
+    DEFAULT: INFO
+    
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: prometheus,health,info,metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        spring.cloud.gateway.requests: true
+    enable:
+      http: true
+      jvm: true
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
