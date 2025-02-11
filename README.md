@@ -13,8 +13,10 @@ docker-compose up
 
 http://localhost:3000/
 
+```
 username: admin
 password: admin
+```
 
 Import dashboard:
 https://github.com/spring-cloud/spring-cloud-gateway/blob/main/docs/src/main/asciidoc/gateway-grafana-dashboard.json
@@ -28,3 +30,11 @@ http://localhost:9090/
 ## Metrics
 
 http://localhost:8080/actuator/prometheus
+
+
+Routes:
+
+openai
+anthropic
+gemini
+
