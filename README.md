@@ -11,7 +11,7 @@ docker-compose up
 
 ## Grafana
 
-http://localhost:3000/
+http://localhost:3030/
 
 ```
 username: admin

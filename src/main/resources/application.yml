@@ -1,43 +1,42 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: aiproxy
   cloud:
     gateway:
-      routes:
-        - id: openai-route
-          uri: https://api.openai.com
-          predicates:
-            - Path=/openai/**
-          filters:
-            - RewritePath=/openai/(?<segment>.*), /${segment}
-        - id: anthropic-route
-          uri: https://api.anthropic.com
-          predicates:
-            - Path=/anthropic/**
-          filters:
-            - RewritePath=/anthropic/(?<segment>.*), /${segment}
-        - id: gemini-route
-          uri: https://generativelanguage.googleapis.com
-          predicates:
-            - Path=/gemini/**
-          filters:
-            - RewritePath=/gemini/(?<segment>.*), /${segment}
-        # - id: dynamic-route
-        #   uri: ${request.path:/}
-        #   predicates:
-        #     - Path=/**
-        #   filters:
-        #     - PreserveHostHeader
-        #     - DedupeResponseHeader=Access-Control-Allow-Origin
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedMethods: "*"
-            allowedHeaders: "*"
+      mvc:
+        routes:
+          - id: openai-route
+            uri: https://api.openai.com
+            predicates:
+              - Path=/openai/**
+            filters:
+              - RewritePath=/openai/(?<segment>.*), /${segment}
+          - id: anthropic-route
+            uri: https://api.anthropic.com
+            predicates:
+              - Path=/anthropic/**
+            filters:
+              - RewritePath=/anthropic/(?<segment>.*), /${segment}
+          # - id: dynamic-route
+          #   uri: ${request.path:/}
+          #   predicates:
+          #     - Path=/**
+          #   filters:
+          #     - PreserveHostHeader
+          #     - DedupeResponseHeader=Access-Control-Allow-Origin
+        globalcors:
+          corsConfigurations:
+            '[/**]':
+              allowedOrigins: "*"
+              allowedMethods: "*"
+              allowedHeaders: "*"
+
 logging:
   level:
-    DEFAULT: INFO
+    root: INFO
     
 management:
   endpoints:
@@ -65,3 +64,4 @@ management:
       enabled: true
     prometheus:
       enabled: true
+
