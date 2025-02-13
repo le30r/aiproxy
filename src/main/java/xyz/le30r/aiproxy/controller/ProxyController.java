@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j
@@ -69,8 +70,17 @@ public abstract class ProxyController {
 
       return new ResponseEntity<>(response.getBody(), responseHeaders, response.getStatusCode());
 
-    } catch (Exception e) {
+    }
+    catch (HttpClientErrorException e) {
 
+      log.error("Proxy error:", e);
+
+      return ResponseEntity
+          .status(e.getStatusCode())
+          .headers(e.getResponseHeaders())
+          .body(e.getResponseBodyAsByteArray());
+    }
+    catch (Exception e) {
       log.error("Proxy error:", e);
       return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
     }

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/gemini/**")
+@RequestMapping("/gemini-client/**")
 public class GeminiProxyController extends ProxyController {
 
   private static final String TARGET_URL = "https://generativelanguage.googleapis.com";

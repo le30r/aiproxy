@@ -20,6 +20,12 @@ spring:
               - Path=/anthropic/**
             filters:
               - RewritePath=/anthropic/(?<segment>.*), /${segment}
+          - id: gemini-route
+            uri: https://generativelanguage.googleapis.com
+            predicates:
+              - Path=/gemini/**
+            filters:
+              - RewritePath=/gemini/(?<segment>.*), /${segment}
           # - id: dynamic-route
           #   uri: ${request.path:/}
           #   predicates:
